@@ -39,7 +39,20 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
-# Android Studio will place build artifacts here
+# Android Studio will place build artifacts here# Generated code (if using code generation like Freezed, json_serializable, etc.)
+*.freezed.dart
+*.g.dart
+*.config.dart
+
+# Environment variables
+.env
+.env.local
+
+# IDE workspace settings (if desired)
+.vscode/
+
+# Merge conflict markers
+*.orig
 /android/app/debug
 /android/app/profile
 /android/app/release
