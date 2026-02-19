@@ -4,6 +4,11 @@ enum PlantType {
   tree,
 }
 
+enum HabitPeriod {
+  day,
+  week,
+  month,
+}
 
 class Habit {
   final String name;
@@ -14,6 +19,12 @@ class Habit {
   bool completedToday;
   int daysInPot;
 
+  // =========================
+  // NEW FIELDS FOR ACCOUNTABILITY
+  // =========================
+  int targetFrequency; // number of times user aims to do this habit in the period
+  HabitPeriod period;  // day, week, or month
+
   Habit({
     required this.name,
     required this.type,
@@ -21,14 +32,18 @@ class Habit {
     this.weedLevel = 0,
     this.completedToday = false,
     this.daysInPot = 0,
+    this.targetFrequency = 1,
+    this.period = HabitPeriod.day,
   });
 
   bool get isReadyForGarden => daysInPot >= 30;
+
   // =========================
   // Core Update Logic (Daily)
   // =========================
-  void updateHealth() {
-    if (completedToday) {
+  void updateHealth({int completedCount = 0}) {
+    // completedCount = how many times user actually did the habit today/this period
+    if (completedCount >= targetFrequency) {
       health += growthRate;
     } else {
       health -= decayRate;
@@ -37,7 +52,7 @@ class Habit {
     _clampHealth();
     completedToday = false;
   }
-  
+
   // =========================
   // Weed System (Missed Logins)
   // =========================
